@@ -1,11 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
-import { cors, runMiddleware } from "@/lib/cors";
+import { Cors } from "@/lib/cors";
 const prisma = new PrismaClient();
 
 export default async function post(req: NextApiRequest, res: NextApiResponse) {
-  await runMiddleware(req, res, cors);
+  await Cors(req, res);
   const { postId } = req.query;
   if (req.method === "POST") {
     const body = req.body;

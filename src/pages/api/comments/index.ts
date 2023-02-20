@@ -29,6 +29,9 @@ export default async function post(req: NextApiRequest, res: NextApiResponse) {
         where: {
           postId: Number(postId),
         },
+        orderBy: {
+          createdAt: "asc",
+        },
       });
 
       return res.status(200).json(comments);

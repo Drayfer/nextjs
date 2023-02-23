@@ -14,7 +14,11 @@ export default async function posts(req: NextApiRequest, res: NextApiResponse) {
   await Cors(req, res);
   if (req.method === "GET") {
     try {
-      const posts: Post[] = await prisma.post.findMany();
+      const posts: Post[] = await prisma.post.findMany({
+        orderBy: {
+          createdAt: "asc",
+        },
+      });
       return res.status(200).json(posts);
     } catch (err) {
       return res.status(500).json(err);

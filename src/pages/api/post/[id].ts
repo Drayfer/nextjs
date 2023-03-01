@@ -34,12 +34,19 @@ export default async function postId(
     });
     return res.status(200).json(post);
   } else if (req.method === "DELETE") {
-    const post = await prisma.post.delete({
+    const deleteComments = prisma.comment.deleteMany({
+      where: {
+        postId: Number(postId),
+      },
+    });
+    const deletePost = prisma.post.delete({
       where: {
         id: Number(postId),
       },
     });
-    return res.status(200).json(post);
+
+    const transaction = await prisma.$transaction([deleteComments, deletePost]);
+    return res.status(200).json(transaction);
   } else {
     return res.status(500).json({ error: "wrong method" });
   }
